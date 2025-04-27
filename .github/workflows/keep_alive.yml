@@ -11,11 +11,12 @@ jobs:
     steps:
       - name: Send HTTP Request to Render app
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://content-management-system-rjdu.onrender.com/api/schema/swagger-ui/)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://content-management-system-rjdu.onrender.com/)
           echo "HTTP Status: $STATUS"
           if [[ "$STATUS" -ne 200 && "$STATUS" -ne 301 && "$STATUS" -ne 302 ]]; then
             echo "Ping failed with status $STATUS"
-            exit 1  # Fail the Action
+            exit 1
+          fi
 
       - name: Send Email on Failure
         if: failure()  # Only run if previous step failed
@@ -29,3 +30,4 @@ jobs:
           body: "Render App is down! Go check."
           to: danieligboke669@gmail.com
           from: GitHub Actions
+
