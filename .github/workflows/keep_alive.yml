@@ -30,4 +30,3 @@ jobs:
           body: "Render App is down! Go check."
           to: danieligboke669@gmail.com
           from: GitHub Actions
-
