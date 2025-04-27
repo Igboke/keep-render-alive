@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Send HTTP Request to Render app
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://content-management-system-rjdu.onrender.com/)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://content-management-system-rjdu.onrender.com/api/schema/swagger-ui/)
           echo "HTTP Status: $STATUS"
           if [[ "$STATUS" -ne 200 && "$STATUS" -ne 301 && "$STATUS" -ne 302 ]]; then
             echo "Ping failed with status $STATUS"
