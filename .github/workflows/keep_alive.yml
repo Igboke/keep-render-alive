@@ -1,0 +1,31 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send HTTP Request to Render app
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://content-management-system-rjdu.onrender.com/api/schema/swagger-ui/)
+          echo "HTTP Status: $STATUS"
+          if [[ "$STATUS" -ne 200 && "$STATUS" -ne 301 && "$STATUS" -ne 302 ]]; then
+            echo "Ping failed with status $STATUS"
+            exit 1  # Fail the Action
+
+      - name: Send Email on Failure
+        if: failure()  # Only run if previous step failed
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: your-email@gmail.com
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Render App Ping Failed
+          body: "Render App is down! Go check."
+          to: danieligboke669@gmail.com
+          from: GitHub Actions
