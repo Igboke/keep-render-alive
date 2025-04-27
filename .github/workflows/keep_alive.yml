@@ -24,7 +24,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          username: your-email@gmail.com
+          username: danieligboke669@gmail.com
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Render App Ping Failed
           body: "Render App is down! Go check."
